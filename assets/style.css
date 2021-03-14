@@ -16,3 +16,11 @@
     width: 150px;
     padding: 5px;
 }
+
+.right {
+    font-style: italic;
+}
+
+.wrong {
+font-style: italic;
+}
