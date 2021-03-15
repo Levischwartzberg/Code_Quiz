@@ -33,7 +33,7 @@ function startQuiz() {
 var timer = document.createElement("p");
 timer.setAttribute("class", "hidden");
 main.appendChild(timer);
-var time = 30;
+var time = 50;
 
 function startCountdown() {
     var timerInterval = setInterval(function(e) {
@@ -58,6 +58,9 @@ function generateQuestion() {
     problem.setAttribute("class", "question");
 
     let i = Math.floor(Math.random() * questions.length);
+    //console.log(i);
+    //console.log(questions);
+    //console.log(questions[i].question);
 
     let question = document.createElement("h1");
     problem.appendChild(question);
@@ -88,6 +91,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            questions.splice(i,1);
             generateQuestion();
         }
         questionShown = false;
@@ -103,6 +107,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            questions.splice(i,1);
             generateQuestion();
         }
         questionShown = false;
@@ -118,6 +123,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            questions.splice(i,1);
             generateQuestion();
         }
         questionShown = false;
@@ -133,6 +139,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            questions.splice(i,1);
             generateQuestion();
         }
         questionShown = false;
