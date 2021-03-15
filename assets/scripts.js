@@ -1,23 +1,25 @@
 var main = document.body;
 
-var Opener = document.createElement("div");
+var opener = document.createElement("div");
+var problems = document.createElement("div");
 var header = document.createElement("h1");
 var message = document.createElement("p");
 var startButton = document.createElement("button");
 
-main.appendChild(Opener);
-Opener.appendChild(header);
-Opener.appendChild(message);
-Opener.appendChild(startButton);
+main.appendChild(opener);
+main.appendChild(problems);
+opener.appendChild(header);
+opener.appendChild(message);
+opener.appendChild(startButton);
 
-Opener.setAttribute("class", "start");
+opener.setAttribute("class", "start");
 header.textContent = "Coding Quiz";
 message.textContent = "Welcome to the coding quiz. Hit the start button to begin answering as many multiple choice questions as you can in the time alloted. Each wrong answer will subract from your time."
 startButton.textContent = "Start Quiz";
 
 startButton.addEventListener("click", function(e) {
     //console.log("test");
-    Opener.setAttribute("class", "hidden");
+    opener.setAttribute("class", "hidden");
     startQuiz();
 })
 
@@ -40,7 +42,7 @@ function startCountdown() {
         timer.textContent = "Time Remaining: " + time;
         time--;
 
-        if(time === -1) {
+        if(time < 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
             // Calls function to create and append image
@@ -54,7 +56,7 @@ function generateQuestion() {
     questionShown = true;
 
     let problem = document.createElement("div");
-    main.appendChild(problem);
+    problems.appendChild(problem);
     problem.setAttribute("class", "question");
 
     let i = Math.floor(Math.random() * questions.length);
@@ -155,7 +157,9 @@ function displayCorrect(evaluation) {
 }
 
 function endGame() {
-
+    problems.setAttribute("class", "hidden");
+    timer.setAttribute("class", "hidden");
+    alert("Time's Up!!!");
 }
 
 var questions = [
@@ -168,10 +172,10 @@ var questions = [
 },
 {
     question: "Which of the following is the proper CSS id selector?",
-    answer1: [".classname", false],
-    answer2: ["#classname", true],
-    answer3: ["*classname", false],
-    answer4: ["$classname", false]
+    answer1: [".idname", false],
+    answer2: ["#idname", true],
+    answer3: ["*idname", false],
+    answer4: ["$idname", false]
 },
 {
     question: "How would one output a message to the dev console in order to debug or test code?",
@@ -207,6 +211,97 @@ var questions = [
     answer2: ["document.createObject('div)", false],
     answer3: ["document.createElement('div')", true],
     answer4: ["document.addElement('div')", false]
+},
+{
+    question: "What following snippet properly initializes a for loop to run as long as the array length?",
+    answer1: ["for (i < array.length) {};", false],
+    answer2: ["for (i = 0; i < array.length; i++) {};", true],
+    answer3: ["for (i = 0; i > array.length; i++) {};", false],
+    answer4: ["for (i = 0; i > array.length) {};", false]
+},
+{
+    question: "Which following loop operates as long as time is greater than zero?",
+    answer1: ["while (time isGreaterThan(0)) {}", false],
+    answer2: ["for (time > 0) {}", false],
+    answer3: ["for (time isGreaterThan(0)) {}", false],
+    answer4: ["while (time > 0) {}", true]
+},
+{
+    question: "Which of the following is not a javascript data type?",
+    answer1: ["boolean", false],
+    answer2: ["number", false],
+    answer3: ["name", true],
+    answer4: ["string", false]
+},
+{
+    question: "9 % 4 = ?",
+    answer1: ["1", true],
+    answer2: ["2.25", false],
+    answer3: ["2", false],
+    answer4: ["3", false]
+},
+{
+    question: "Which of the following expressions is false?",
+    answer1: ["true || false", false],
+    answer2: ["!(false)", false],
+    answer3: ["!(3 === 2)", false],
+    answer4: ["false || false", true]
+},
+{
+    question: "Which of the following expressions is true?",
+    answer1: ["false || false", false],
+    answer2: ["true || false", true],
+    answer3: ["false && false", false],
+    answer4: ["true && false", false]
+},
+{
+    question: "Which of the following is valid CSS styling for a dashed red border with a width of 2x?",
+    answer1: ["border: 2px red dashed;", true],
+    answer2: ["border-style: 2px red dashed;", false],
+    answer3: ["border-style: width(2px), color(red), decoration(dashed);", false],
+    answer4: ["border; 2px red dashed:", false]
+},
+{
+    question: "Which method attaches an element within an existing html element in javascript?",
+    answer1: ["element.attach(newElement);", false],
+    answer2: ["element.add(newElement);", false],
+    answer3: ["element.join(newElement);", false],
+    answer4: ["element.appendChild(newElement);", true]
+},
+{
+    question: "Which of the following is an example of proper javascript function declaration?",
+    answer1: ["myFunction = {}", false],
+    answer2: ["function myFunction = {}", false],
+    answer3: ["function myFunction() {}", true],
+    answer4: ["function myFunction() = {}", false]
+},
+{
+    question: "Which following array splice method and result are correct for var array = [1,2,3,4,5]?",
+    answer1: ["array.splice(2,1); //array=[1,2,4,5]", true],
+    answer2: ["array.splice(2,1); //array=[3,4,5]", false],
+    answer3: ["array.splice(1,0); //array=[1,3,4,5]", false],
+    answer4: ["array.splice(5,1); //array=[1,2,3,4]", false]
+},
+{
+    question: "Which array method is used to add a new element to the end of the array?",
+    answer1: ["array.add();", false],
+    answer2: ["array.addNew();", false],
+    answer3: ["array.append();", false],
+    answer4: ["array.push();", true]
+},
+{
+    question: "Which of the following would not return 0 for the array [0,1,2,3,4,5]?",
+    answer1: ["return array[0];", false],
+    answer2: ["return array.unshift();", true],
+    answer3: ["return array.shift();", false],
+    answer4: ["return array.splice(0,1)", false]
+},
+{
+    question: "Which array method is used to add a new element to the beginning of an array?",
+    answer1: ["array.unshift();", true],
+    answer2: ["array.add();", false],
+    answer3: ["array.shift();", false],
+    answer4: ["array[0] = new_value;", false]
 }
 ];
 
