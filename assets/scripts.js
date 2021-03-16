@@ -6,6 +6,8 @@ var header = document.createElement("h1");
 var message = document.createElement("p");
 var startButton = document.createElement("button");
 
+var score = 0;
+
 main.appendChild(opener);
 main.appendChild(problems);
 opener.appendChild(header);
@@ -39,8 +41,8 @@ var time = 50;
 
 function startCountdown() {
     var timerInterval = setInterval(function(e) {
-        timer.textContent = "Time Remaining: " + time;
         time--;
+        timer.textContent = "Time Remaining: " + time;
 
         if(time < 0) {
             // Stops execution of action at set interval
@@ -85,6 +87,7 @@ function generateQuestion() {
     answer1.addEventListener("click", function(e){
         if (questions[i].answer1[1] == true) {
             displayCorrect("correct!");
+            score++;
         }
         else {
             time = time - 5;
@@ -101,6 +104,7 @@ function generateQuestion() {
     answer2.addEventListener("click", function(e){
         if (questions[i].answer2[1] == true) {
             displayCorrect("correct!");
+            score++;
         }
         else {
             time = time - 5;
@@ -117,6 +121,7 @@ function generateQuestion() {
     answer3.addEventListener("click", function(e){
         if (questions[i].answer3[1] == true) {
             displayCorrect("correct!");
+            score++;
         }
         else {
             time = time - 5;
@@ -133,6 +138,7 @@ function generateQuestion() {
     answer4.addEventListener("click", function(e){
         if (questions[i].answer4[1] == true) {
             displayCorrect("correct!");
+            score++;
         }
         else {
             time = time - 5;
@@ -160,7 +166,61 @@ function endGame() {
     problems.setAttribute("class", "hidden");
     timer.setAttribute("class", "hidden");
     alert("Time's Up!!!");
+    endgame.setAttribute("class", "highscore");
+    highscores.innerHTML = `
+    <form method="POST">
+        <p> You scored ${score} </p>
+        <div class="input">
+        <label for="player_name">Player Name</label>
+        <input type="text" name="player_name" id="player_name" placeholder="participant name" />
+        </div>
+        <button id="submit">Enter Score</button>
+    </form>`;
+    
+    var submitButton = document.getElementById("submit");
+    submitButton.addEventListener("click", function(event) {
+        event.preventDefault();
+      
+        var previous = JSON.parse(localStorage.getItem("username"));
+        console.log(previous);
+        var userScores = [];
+        if (previous != null) {
+            userScores.push(previous);
+        }
+        console.log(userScores);
+        console.log(typeof(userScores));
+
+        var username = document.getElementById("player_name").value;
+        var userScore = [username, score];
+        userScores.push(userScore);
+        var userScoresStr = (JSON.stringify(userScores));
+        console.log(userScoresStr);
+
+        localStorage.setItem("username", userScoresStr);
+    });
 }
+
+var endgame = document.createElement("div");
+main.appendChild(endgame);
+endgame.setAttribute("class", "hidden");
+var highscores = document.createElement("form");
+endgame.appendChild(highscores);
+
+var viewHighscores = document.getElementById("view_highscores");
+viewHighscores.addEventListener("click", function(e){
+    var highscores = document.createElement("p");
+    main.appendChild(highscores);
+    highscoresStr = JSON.parse(localStorage.getItem("username")).toString();
+    var highscoresArray = highscoresStr.split(",");
+        
+    highscores.innerHTML = `
+        <p> Name: ${highscoresArray[0]} &nbsp; &nbsp; Score: ${highscoresArray[1]} </p>
+        <p> Name: ${highscoresArray[2]} &nbsp; &nbsp; Score: ${highscoresArray[3]} </p>
+        <p> Name: ${highscoresArray[4]} &nbsp; &nbsp; Score: ${highscoresArray[5]} </p>
+        <p> Name: ${highscoresArray[6]} &nbsp; &nbsp; Score: ${highscoresArray[7]} </p>
+         `
+    
+})
 
 var questions = [
 {
