@@ -182,21 +182,25 @@ function endGame() {
         event.preventDefault();
       
         var previous = JSON.parse(localStorage.getItem("username"));
-        console.log(previous);
+        //console.log(previous);
         var userScores = [];
         if (previous != null) {
             userScores.push(previous);
         }
-        console.log(userScores);
-        console.log(typeof(userScores));
+        //console.log(userScores);
+        //console.log(typeof(userScores));
 
         var username = document.getElementById("player_name").value;
         var userScore = [username, score];
         userScores.push(userScore);
         var userScoresStr = (JSON.stringify(userScores));
-        console.log(userScoresStr);
+        //console.log(userScoresStr);
 
         localStorage.setItem("username", userScoresStr);
+        highscore_form.setAttribute("class", "hidden");
+        opener.setAttribute("class", "start");
+        endgame.setAttribute("class", "hidden");
+        time = 50;
     });
 }
 
@@ -206,15 +210,15 @@ endgame.setAttribute("class", "hidden");
 var highscore_form = document.createElement("form");
 endgame.appendChild(highscore_form);
 
-
+//The viewHighscores button toggles between showing and hiding the highscores div 
 var viewHighscores = document.getElementById("view_highscores");
 
 var highscores = document.createElement("div");
     highscores.setAttribute("class", "hidden");
 
 viewHighscores.addEventListener("click", function(e){
-    //console.log(highscores.className);
     main.appendChild(highscores);
+    //If the highscores are hidden, the highscores is shown, and the names/scores combo is looped over and added in p tags
     if (highscores.className == "hidden") {
         highscores.setAttribute("class", "highscores"); 
         highscoresArray = [];
@@ -232,8 +236,9 @@ viewHighscores.addEventListener("click", function(e){
         }
     }
     else if (highscores.className == "highscores") {
+        //Highscores is hidden and emptied if the highscores button is clicked while the highscores are showing.
+        highscores.innerHTML = `<div> </div>`
         highscores.setAttribute("class", "hidden");
-        document.getElementById("highscores").remove();
         highscoresArray = [];
     }
 })
