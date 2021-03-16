@@ -25,7 +25,14 @@
 font-style: italic;
 }
 
-.highscore {
+.highscores {
+    text-align: center;
+    border: solid black 2px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.highscore_form {
     text-align: center;
     border: solid black 2px;
     width: 50%;

@@ -47,7 +47,7 @@ function startCountdown() {
         if(time < 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
-            // Calls function to create and append image
+            // Calls endGame function
             endGame();
           }
     }, 1000)
@@ -166,8 +166,8 @@ function endGame() {
     problems.setAttribute("class", "hidden");
     timer.setAttribute("class", "hidden");
     alert("Time's Up!!!");
-    endgame.setAttribute("class", "highscore");
-    highscores.innerHTML = `
+    endgame.setAttribute("class", "highscore_form");
+    highscore_form.innerHTML = `
     <form method="POST">
         <p> You scored ${score} </p>
         <div class="input">
@@ -203,24 +203,68 @@ function endGame() {
 var endgame = document.createElement("div");
 main.appendChild(endgame);
 endgame.setAttribute("class", "hidden");
-var highscores = document.createElement("form");
-endgame.appendChild(highscores);
+var highscore_form = document.createElement("form");
+endgame.appendChild(highscore_form);
+
 
 var viewHighscores = document.getElementById("view_highscores");
+
+var highscores = document.createElement("div");
+    highscores.setAttribute("class", "hidden");
+
 viewHighscores.addEventListener("click", function(e){
-    var highscores = document.createElement("p");
+    //console.log(highscores.className);
     main.appendChild(highscores);
-    highscoresStr = JSON.parse(localStorage.getItem("username")).toString();
-    var highscoresArray = highscoresStr.split(",");
-        
-    highscores.innerHTML = `
-        <p> Name: ${highscoresArray[0]} &nbsp; &nbsp; Score: ${highscoresArray[1]} </p>
-        <p> Name: ${highscoresArray[2]} &nbsp; &nbsp; Score: ${highscoresArray[3]} </p>
-        <p> Name: ${highscoresArray[4]} &nbsp; &nbsp; Score: ${highscoresArray[5]} </p>
-        <p> Name: ${highscoresArray[6]} &nbsp; &nbsp; Score: ${highscoresArray[7]} </p>
-         `
+    if (highscores.className == "hidden") {
+        highscores.setAttribute("class", "highscores"); 
+        highscoresArray = [];
+
+        highscoresStr = JSON.parse(localStorage.getItem("username")).toString();
     
+        var highscoresArray = highscoresStr.split(",");
+        highscoresArray = orderArray(highscoresArray);
+        
+        for (i = 0; i < highscoresArray.length; i++) {
+            var userScore = document.createElement("p");
+            userScore.setAttribute("id", "highscores");
+            highscores.appendChild(userScore);
+            userScore.innerHTML = `<p> Name: ${highscoresArray[i].user} &nbsp; &nbsp; Score: ${highscoresArray[i].points} </p>`
+        }
+    }
+    else if (highscores.className == "highscores") {
+        highscores.setAttribute("class", "hidden");
+        document.getElementById("highscores").remove();
+        highscoresArray = [];
+    }
 })
+
+function orderArray(array) {
+    objected = [];
+    for (i = 0; i < array.length; i = i + 2) {
+        let userPlusScore = {
+            user: array[i],
+            points: parseInt(array[i+1])
+        }
+        objected.push(userPlusScore);
+        //console.log(objected);
+    }
+    function compare(a, b) {
+        let num1 = a.points;
+        let num2 = b.points;
+
+        let comparison = 0;
+        if (num1 < num2) {
+            comparison = 1;
+        } else if (num1 > num2) {
+            comparison = -1;
+        }
+        return comparison;
+    }
+    objected.sort(compare);
+    //console.log(objected);
+    return objected;
+}
+
 
 var questions = [
 {
