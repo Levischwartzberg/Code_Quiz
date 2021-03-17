@@ -28,12 +28,13 @@ startButton.addEventListener("click", function(e) {
 var questionShown = false;
 
 function startQuiz() {
+    score = 0;
+    time = 50;
     startCountdown();
     timer.textContent = "Time Remaining: " + time;
     timer.setAttribute("class", "timer");
     generateQuestion();
     problems.setAttribute("class", "question");
-    time = 50;
 }
 
 //timer section
@@ -64,8 +65,8 @@ function generateQuestion() {
 
     let i = Math.floor(Math.random() * questions.length);
     //console.log(i);
-    console.log(questions);
-    console.log(questions[i].question);
+    //console.log(questions);
+    //console.log(questions[i].question);
 
     let question = document.createElement("h1");
     problem.appendChild(question);
@@ -168,17 +169,21 @@ function displayCorrect(evaluation) {
 }
 
 function endGame() {
+    console.log("test");
     for (i = 0; i < questions.length; i++) {
         backupQuestions.push(questions[i]);
-        //console.log(backupQuestions[i]);
+        console.log("test");
     }
     problems.setAttribute("class", "hidden");
     problems.innerHTML = `<div> </div>`;
     timer.setAttribute("class", "hidden");
     alert("Time's Up!!!");
+    //console.log(endgame.className);
     endgame.setAttribute("class", "highscore_form");
+    highscore_form.setAttribute("class", "show");
+    //console.log(endgame.className);
     highscore_form.innerHTML = `
-    <form method="POST">
+    <form method="POST" class="show">
         <p> You scored ${score} </p>
         <div class="input">
         <label for="player_name">Player Name</label>
@@ -186,12 +191,14 @@ function endGame() {
         </div>
         <button id="submit">Enter Score</button>
     </form>`;
+    //console.log(highscore_form.innerHTML);
     
     var submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", function(event) {
         questions = repopulate(backupQuestions);
+        backupQuestions = [];
 
-        console.log(questions);
+        //console.log(questions);
         event.preventDefault();
       
         var previous = JSON.parse(localStorage.getItem("username"));
@@ -211,6 +218,7 @@ function endGame() {
 
         localStorage.setItem("username", userScoresStr);
         highscore_form.setAttribute("class", "hidden");
+        highscore_form.innerHTML = ``;
         opener.setAttribute("class", "start");
         endgame.setAttribute("class", "hidden");
     });
