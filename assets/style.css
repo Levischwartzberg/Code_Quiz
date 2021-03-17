@@ -1,3 +1,43 @@
+header {
+    background-color: #6da9e0;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    margin-bottom: 20px;
+    padding: 5px 5px 0px 5px;
+    width: 100%;
+}
+
+button {
+    background-color: #09139b;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #1621b9;
+}
+
+#timer {
+    position: relative;
+    bottom: 30px;
+    right: 75px;
+    text-align: right;
+}
+
+.spacer {
+    height: 170px;
+}
+
+h1 {
+    text-align: center;
+}
+
 .start {
     text-align: center;
     width: 50%;

@@ -26,17 +26,18 @@ startButton.addEventListener("click", function(e) {
 })
 
 var questionShown = false;
+
 function startQuiz() {
     startCountdown();
     timer.textContent = "Time Remaining: " + time;
     timer.setAttribute("class", "timer");
     generateQuestion();
+    problems.setAttribute("class", "question");
+    time = 50;
 }
 
 //timer section
-var timer = document.createElement("p");
-timer.setAttribute("class", "hidden");
-main.appendChild(timer);
+var timer = document.getElementById("timer")
 var time = 50;
 
 function startCountdown() {
@@ -57,14 +58,14 @@ function generateQuestion() {
     //console.log("test");
     questionShown = true;
 
-    let problem = document.createElement("div");
-    problems.appendChild(problem);
+    var problem = document.createElement("div");
     problem.setAttribute("class", "question");
+    problems.appendChild(problem);
 
     let i = Math.floor(Math.random() * questions.length);
     //console.log(i);
-    //console.log(questions);
-    //console.log(questions[i].question);
+    console.log(questions);
+    console.log(questions[i].question);
 
     let question = document.createElement("h1");
     problem.appendChild(question);
@@ -96,6 +97,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            backupQuestions.push(questions[i]);
             questions.splice(i,1);
             generateQuestion();
         }
@@ -113,6 +115,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            backupQuestions.push(questions[i]);
             questions.splice(i,1);
             generateQuestion();
         }
@@ -130,6 +133,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            backupQuestions.push(questions[i]);
             questions.splice(i,1);
             generateQuestion();
         }
@@ -147,6 +151,7 @@ function generateQuestion() {
 
         if (time > 0) {
             problem.setAttribute("class", "hidden");
+            backupQuestions.push(questions[i]);
             questions.splice(i,1);
             generateQuestion();
         }
@@ -163,7 +168,12 @@ function displayCorrect(evaluation) {
 }
 
 function endGame() {
+    for (i = 0; i < questions.length; i++) {
+        backupQuestions.push(questions[i]);
+        //console.log(backupQuestions[i]);
+    }
     problems.setAttribute("class", "hidden");
+    problems.innerHTML = `<div> </div>`;
     timer.setAttribute("class", "hidden");
     alert("Time's Up!!!");
     endgame.setAttribute("class", "highscore_form");
@@ -179,6 +189,9 @@ function endGame() {
     
     var submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", function(event) {
+        questions = repopulate(backupQuestions);
+
+        console.log(questions);
         event.preventDefault();
       
         var previous = JSON.parse(localStorage.getItem("username"));
@@ -200,8 +213,11 @@ function endGame() {
         highscore_form.setAttribute("class", "hidden");
         opener.setAttribute("class", "start");
         endgame.setAttribute("class", "hidden");
-        time = 50;
     });
+}
+
+function repopulate(array) {
+    return array;
 }
 
 var endgame = document.createElement("div");
@@ -413,4 +429,6 @@ var questions = [
     answer4: ["array[0] = new_value;", false]
 }
 ];
+
+var backupQuestions = [];
 
