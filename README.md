@@ -1,4 +1,4 @@
-# 04 JavaScript: Password Generator
+# 04 Web APIs: Code Quiz
 
 ## Code Quiz
 
